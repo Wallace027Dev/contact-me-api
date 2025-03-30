@@ -1,8 +1,7 @@
 const url = require("url");
-const EmailController = require("./controllers/emailController");
+const emailController = require("./controllers/emailController");
 
 const routes = async (req, res) => {
-  const emailController = new EmailController(req, res);
   const URL = url.parse(req.url, `http://${req.headers.host}`);
 
   if (req.method === "GET" && URL.pathname === "/") {
@@ -12,7 +11,8 @@ const routes = async (req, res) => {
   }
 
   if (req.method === "POST" && URL.pathname === "/send-email") {
-    return emailController.sendEmail();
+    emailController.sendEmail(req, res);
+    return;
   }
 
   res.writeHead(404, { "Content-Type": "text/html" });
