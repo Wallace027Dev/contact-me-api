@@ -18,29 +18,23 @@ const routes = async (req, res) => {
     return;
   }
 
-  if (req.method === "GET" && URL.pathname.startsWith("/api-docs")) {
-    let filePath;
-    if (URL.pathname === "/api-docs") {
-      filePath = path.join(swaggerUiPath, "index.html");
-    } else {
-      filePath = path.join(
-        swaggerUiPath,
-        URL.pathname.replace("/api-docs/", "")
-      );
-    }
+  if (req.method === "GET" && URL.pathname === "/api-docs") {
+    filePath = path.join(swaggerUiPath, "index.html");
 
-    fs.readFile(filePath, (err, content) => {
+    fs.readFile(filePath, "utf8", (err, content) => {
       if (err) {
         res.writeHead(404, { "Content-Type": "text/html" });
         res.end("<h1>Arquivo não encontrado</h1>");
         return;
       }
 
-      let contentType = "text/html";
-      if (filePath.endsWith(".js")) contentType = "application/javascript";
-      if (filePath.endsWith(".css")) contentType = "text/css";
+      // Adiciona o link do Swagger JSON ao index.html do Swagger UI
+      content = content.replace(
+        'url: "https://petstore.swagger.io/v2/swagger.json"',
+        'url: "/swagger.json"'
+      );
 
-      res.writeHead(200, { "Content-Type": contentType });
+      res.writeHead(200, { "Content-Type": "text/html" });
       res.end(content);
     });
     return;
