@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "nodemailer": "^6.10.0",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "swagger-ui-dist": "^5.20.2"
   }
 }

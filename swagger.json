@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Contact Us API",
+    "version": "1.0.0",
+    "description": "API para envio de emails de contato."
+  },
+  "servers": [
+    {
+      "url": "https://contact-me-api-ten.vercel.app",
+      "description": "Servidor de produção"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Servidor local"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Página inicial",
+        "description": "Retorna uma mensagem de boas-vindas.",
+        "responses": {
+          "200": {
+            "description": "Mensagem de boas-vindas",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<h1>Olá mundo. Você está na página inicial</h1>"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send-email": {
+      "post": {
+        "summary": "Enviar email",
+        "description": "Envia um email com base nos dados fornecidos.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "to": {
+                    "type": "string",
+                    "example": "destinatario@example.com"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "example": "Teste"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "Olá, este é um teste."
+                  }
+                },
+                "required": ["to", "subject", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email enviado com sucesso"
+          },
+          "400": {
+            "description": "Erro na requisição"
+          }
+        }
+      }
+    }
+  }
+}
