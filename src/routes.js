@@ -7,6 +7,19 @@ const emailController = require("./controllers/emailController");
 const routes = async (req, res) => {
   const URL = url.parse(req.url, `http://${req.headers.host}`);
 
+  const setCorsHeaders = (res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  };
+  
+  if (req.method === "OPTIONS") {
+    setCorsHeaders(res);
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+  
   if (req.method === "GET" && URL.pathname === "/") {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end("<h1>Olá mundo. Você está na página inicial</h1>");
